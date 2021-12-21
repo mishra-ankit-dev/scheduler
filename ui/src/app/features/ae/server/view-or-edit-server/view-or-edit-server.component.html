@@ -1,0 +1,181 @@
+<div class="create-server" *ngIf="selectedServer$ | async as selectedServer">
+  <div class="form-wrapper" *ngIf="routeParams$ | async as routeParams">
+    <form [formGroup]="serverForm">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group serverName">
+                <label for="serverName" class="form-label required"
+                  >Server Name</label
+                >
+                <input
+                  readonly
+                  id="serverName"
+                  name="serverName"
+                  formControlName="serverName"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group dbServerName">
+                <label for="dbServerName" class="form-label required"
+                  >DB Server Name</label
+                >
+                <input
+                  id="dbServerName"
+                  name="dbServerName"
+                  class="form-control highlight"
+                  formControlName="dbServerName"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group dbName">
+                <label for="dbName" class="form-label required">DB Name</label>
+                <input
+                  id="dbName"
+                  name="dbName"
+                  class="form-control highlight"
+                  formControlName="dbName"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group serverIp">
+                <label for="serverIp" class="form-label required"
+                  >Server IP</label
+                >
+                <input
+                  type="text"
+                  id="serverIp"
+                  class="form-control highlight"
+                  formControlName="serverIp"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group aeFilePath">
+                <label for="aeFilePath" class="form-label required"
+                  >AE Script Path</label
+                >
+                <input
+                  type="text"
+                  id="aeFilePath"
+                  class="form-control highlight"
+                  formControlName="aeFilePath"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group aeVersion">
+                <label for="aeVersion" class="form-label required"
+                  >AssistEdge Version</label
+                >
+                <input
+                  id="aeVersion"
+                  name="aeVersion"
+                  formControlName="aeVersion"
+                  class="form-control highlight"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group listenerUrl">
+                <label for="listenerUrl" class="form-label required"
+                  >Listener URL</label
+                >
+                <input
+                  type="text"
+                  id="listenerUrl"
+                  formControlName="listenerUrl"
+                  class="form-control highlight"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group aeSiteUrl">
+                <label for="aeSiteUrl" class="form-label required"
+                  >AE Site URL</label
+                >
+                <input
+                  type="text"
+                  id="aeSiteUrl"
+                  formControlName="aeSiteUrl"
+                  class="form-control highlight"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group messagingUrl">
+                <label for="messagingUrl" class="form-label required"
+                  >Messaging URL</label
+                >
+                <input
+                  type="text"
+                  id="messagingUrl"
+                  formControlName="messagingUrl"
+                  class="form-control highlight"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div class="form-group userName">
+                <label for="userName" class="form-label required"
+                  >UserName</label
+                >
+                <input
+                  id="userName"
+                  name="userName"
+                  formControlName="userName"
+                  class="form-control highlight"
+                  [readonly]="routeParams.mode == 'view'"
+                />
+              </div>
+
+              <div
+                class="form-group password"
+                *ngIf="routeParams.mode == 'edit'"
+              >
+                <label for="password" class="form-label required"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  formControlName="password"
+                  class="form-control highlight"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="!(routeParams.mode == 'view')">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="UpdateServer()"
+              [disabled]="serverForm.invalid"
+              [ngClass]="{
+                'form-valid': !serverForm.invalid,
+                'form-invalid': serverForm.invalid
+              }"
+            >
+              Update Server
+            </button>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<app-spinner
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  *ngIf="!(selectedServer$ | async)"
+  >{{ " Fetching data from backend....." }}</app-spinner
+>

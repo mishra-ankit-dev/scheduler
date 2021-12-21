@@ -1,0 +1,233 @@
+<div
+  class="create-server"
+  *ngIf="(serverName$ | async) || !(serverName$ | async)"
+>
+  <div class="form-wrapper">
+    <form [formGroup]="serverForm">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group serverName">
+                <label for="serverName" class="form-label required"
+                  >Server Name</label
+                >
+                <input
+                  id="serverName"
+                  name="serverName"
+                  class="form-control highlight"
+                  formControlName="serverName"
+                />
+              </div>
+
+              <div class="form-group dbServerName">
+                <label for="dbServerName" class="form-label required"
+                  >DB Server Name</label
+                >
+                <input
+                  id="dbServerName"
+                  name="dbServerName"
+                  class="form-control highlight"
+                  formControlName="dbServerName"
+                />
+              </div>
+
+              <div class="form-group dbName">
+                <label for="dbName" class="form-label required">DB Name</label>
+                <input
+                  id="dbName"
+                  name="dbName"
+                  class="form-control highlight"
+                  formControlName="dbName"
+                />
+              </div>
+
+              <div class="form-group serverIp">
+                <label for="serverIp" class="form-label required"
+                  >Server IP</label
+                >
+                <input
+                  type="text"
+                  id="serverIp"
+                  class="form-control highlight"
+                  formControlName="serverIp"
+                />
+              </div>
+
+              <div class="form-group uiPathFilePath">
+                <label for="uiPathFilePath" class="form-label required"
+                  >Server start script path</label
+                >
+                <input
+                  type="text"
+                  id="uiPathFilePath"
+                  name="uiPathFilePath"
+                  class="form-control highlight"
+                  formControlName="uiPathFilePath"
+                />
+              </div>
+
+              <div class="form-group userName">
+                <label for="userName" class="form-label required"
+                  >UserName</label
+                >
+                <input
+                  id="userName"
+                  name="userName"
+                  formControlName="userName"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group orchUserName">
+                <label for="orchUserName" class="form-label required"
+                  >Orchestrator UserName</label
+                >
+                <input
+                  id="orchUserName"
+                  name="orchUserName"
+                  formControlName="orchUserName"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group dbUserName">
+                <label for="dbUserName" class="form-label required"
+                  >DB SQL UserName</label
+                >
+                <input
+                  id="dbUserName"
+                  name="dbUserName"
+                  formControlName="dbUserName"
+                  class="form-control highlight"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group version">
+                <label for="version" class="form-label required"
+                  >UiPath Version</label
+                >
+                <input
+                  id="version"
+                  name="version"
+                  formControlName="version"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group loginUrl">
+                <label for="loginUrl" class="form-label required"
+                  >Login URL</label
+                >
+                <input
+                  type="text"
+                  id="loginUrl"
+                  name="loginUrl"
+                  formControlName="loginUrl"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group releasesUrl">
+                <label for="releasesUrl" class="form-label required"
+                  >Releases URL</label
+                >
+                <input
+                  type="text"
+                  id="releasesUrl"
+                  name="releasesUrl"
+                  formControlName="releasesUrl"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group getJobsUrl">
+                <label for="getJobsUrl" class="form-label required"
+                  >Get Jobs URL</label
+                >
+                <input
+                  type="text"
+                  id="getJobsUrl"
+                  name="getJobsUrl"
+                  formControlName="getJobsUrl"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group startJobUrl">
+                <label for="startJobUrl" class="form-label required"
+                  >Start Job URL</label
+                >
+                <input
+                  type="text"
+                  id="startJobUrl"
+                  name="startJobUrl"
+                  formControlName="startJobUrl"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group password">
+                <label for="password" class="form-label required"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  formControlName="password"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group orchPassword">
+                <label for="orchPassword" class="form-label required"
+                  >Orchestrator Password</label
+                >
+                <input
+                  type="password"
+                  id="orchPassword"
+                  name="orchPassword"
+                  formControlName="orchPassword"
+                  class="form-control highlight"
+                />
+              </div>
+
+              <div class="form-group dbPassword">
+                <label for="dbPassword" class="form-label required"
+                  >DB SQL Password</label
+                >
+                <input
+                  type="password"
+                  id="dbPassword"
+                  name="dbPassword"
+                  formControlName="dbPassword"
+                  class="form-control highlight"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button
+              type="submit"
+              (click)="AddServer()"
+              class="btn btn-primary"
+              [disabled]="serverForm.invalid"
+              [ngClass]="{
+                'form-valid': !serverForm.invalid,
+                'form-invalid': serverForm.invalid
+              }"
+            >
+              Add Server
+            </button>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </form>
+    <p *ngIf="serverName$ | async" style="display: none"></p>
+  </div>
+</div>

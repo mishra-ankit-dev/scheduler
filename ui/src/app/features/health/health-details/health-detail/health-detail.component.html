@@ -1,0 +1,13 @@
+<div class="health-detail">
+  <div class="row">
+    <div class="col-md-4">
+      <ol class="server-info" style="list-style: none">
+        <li>{{ "Server Name : " }} {{ server?.serverName }}</li>
+        <li>{{ "Server Owner : " }} {{ server?.owner }}</li>
+      </ol>
+    </div>
+    <div class="col-md-8">
+      <app-health-info [healthDetail]="serverHealthDetail$"></app-health-info>
+    </div>
+  </div>
+</div>

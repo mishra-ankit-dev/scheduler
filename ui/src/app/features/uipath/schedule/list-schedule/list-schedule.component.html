@@ -1,0 +1,48 @@
+<div class="list-schedule" *ngIf="allSchedules$ | async as allSchedules">
+  <ng-container
+    *ngIf="
+      allSchedules$ | filterUipathSchedules | async as allFilteredSchedules
+    "
+  >
+    <app-schedule
+      *ngFor="let schedule of allFilteredSchedules; let scheduleIndex = index"
+      [schedule]="schedule"
+      [scheduleIndex]="scheduleIndex"
+      (deletedSchedule)="onScheduleDelete($event)"
+    ></app-schedule>
+    <div class=".no-matching-schedule row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h4
+          *ngIf="
+            !((allSchedules | json) == '[]') &&
+            (allFilteredSchedules | json) == '[]'
+          "
+        >
+          No Schedule found as per the searched keyword. Try with some different
+          keyword.
+        </h4>
+        <h4 *ngIf="(allSchedules | json) == '[]'">
+          No schedule found to display
+        </h4>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </ng-container>
+</div>
+
+<app-spinner
+  *ngIf="!(allSchedules$ | async)"
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Fetching data from backend....." }}</app-spinner
+>
+
+<app-spinner
+  *ngIf="
+    (allSchedules$ | async) && !(allSchedules$ | filterUipathSchedules | async)
+  "
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Checking for search keyword from search box....." }}</app-spinner
+>

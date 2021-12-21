@@ -1,0 +1,11 @@
+<div style="padding-top: 5px">
+  <app-spinner
+    [spinnerColor]="'#428bca'"
+    [spinnerSize]="'1.5rem'"
+    *ngIf="routingIsDelayed; else noDelayInRouting"
+    >{{ " Loading the requested page....." }}</app-spinner
+  >
+  <ng-template #noDelayInRouting>
+    <router-outlet></router-outlet>
+  </ng-template>
+</div>

@@ -1,0 +1,58 @@
+<div class="schedule">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Trigger</th>
+        <th scope="col">Status</th>
+        <th scope="col">Type</th>
+        <ng-container
+          *ngIf="
+            schedule.recurringType == 'Once' || schedule.recurringType == 'Now';
+            else repeatingTypeHead
+          "
+        >
+          <th scope="col">OccurrenceTime</th>
+        </ng-container>
+        <ng-template #repeatingTypeHead>
+          <th scope="col">Time</th>
+          <th scope="col">StartDate</th>
+          <th scope="col">EndDate</th>
+        </ng-template>
+        <th scope="col">UserName</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="overflow-auto">
+        <th scope="row">{{ scheduleIndex + 1 }}</th>
+        <td>{{ schedule.scheduleName }}</td>
+        <td>
+          <span>{{ schedule.trigger | aeTriggerName }}</span>
+        </td>
+        <td>{{ schedule.status }}</td>
+        <td>{{ schedule.recurringType }}</td>
+        <ng-container
+          *ngIf="
+            schedule.recurringType == 'Once' || schedule.recurringType == 'Now';
+            else repeatingTypeBody
+          "
+        >
+          <td>
+            {{ (schedule.occurOnceDateTime | date: "medium") || "NA" }}
+          </td>
+        </ng-container>
+        <ng-template #repeatingTypeBody>
+          <td>{{ schedule.recurringTime || "NA" }}</td>
+          <td>{{ schedule.recurringStartDate || "NA" }}</td>
+          <td>{{ schedule.recurringEndDate || "NA" }}</td>
+        </ng-template>
+        <td>{{ schedule.userName }}</td>
+        <td (click)="DeleteSchedule(schedule)">
+          <i aria-hidden="true" class="bi bi-archive-fill danger"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

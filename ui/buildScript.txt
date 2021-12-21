@@ -1,0 +1,1 @@
+ng build --prod --output-path D:\IMPACT\RPA\AssistEdge\Microbots\Scheduler\backend\backend\static\ui --watch --output-hashing none

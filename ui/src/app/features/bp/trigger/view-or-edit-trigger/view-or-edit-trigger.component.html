@@ -1,0 +1,157 @@
+<div class="schedule-proceses" *ngIf="routeParams$ | async as routeParams">
+  <div *ngIf="trigger$ | async as trigger" class="form-wrapper mt-3">
+    <form [formGroup]="viewOrEditTriggerForm">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="form-group triggerName">
+              <label for="trigger" class="form-label required"
+                >Trigger Name</label
+              >
+              <input
+                type="text"
+                id="triggerName"
+                class="form-control highlight"
+                formControlName="triggerName"
+                [readonly]="routeParams.mode == 'view'"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <div formGroupName="server">
+                <div class="form-group serverName">
+                  <label for="serverName" class="form-label required"
+                    >Server Name</label
+                  >
+                  <input
+                    readonly
+                    type="text"
+                    id="serverName"
+                    name="serverName"
+                    class="form-control highlight"
+                    formControlName="serverName"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group processType">
+                <label for="processType" class="form-label required"
+                  >Process Type</label
+                >
+                <input
+                  readonly
+                  type="text"
+                  id="processType"
+                  name="processType"
+                  formControlName="processType"
+                  class="form-control highlight"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div formGroupName="server">
+                <div class="form-group version">
+                  <label for="version" class="form-label required"
+                    >Blue Prism Version</label
+                  >
+                  <input
+                    readonly
+                    id="version"
+                    name="version"
+                    formControlName="version"
+                    class="form-control highlight"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group processName">
+                <label for="processName" class="form-label required"
+                  >Process Name</label
+                >
+                <input
+                  readonly
+                  id="processName"
+                  name="processName"
+                  class="form-control highlight"
+                  formControlName="processName"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-6">
+              <div class="form-heading">Process Inputs</div>
+            </div>
+            <div class="col-md-6" *ngIf="routeParams.mode == 'edit'">
+              <button
+                type="button"
+                class="btn btn-success pull-right"
+                (click)="addProcessInput('', '')"
+                [disabled]="viewOrEditTriggerForm.invalid"
+                [ngClass]="{
+                  'form-valid': !viewOrEditTriggerForm.invalid,
+                  'form-invalid': viewOrEditTriggerForm.invalid
+                }"
+              >
+                Add new Input
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div formArrayName="processInputs" class="form-group">
+              <div
+                *ngFor="let itemrow of formsArr.controls; let i = index"
+                class="form-group"
+                [formGroupName]="i"
+              >
+                <div class="row form-group">
+                  <div class="col-sm-4">
+                    <textarea
+                      type="text"
+                      class="form-control highlight"
+                      formControlName="name"
+                      [readonly]="routeParams.mode == 'view'"
+                    ></textarea>
+                  </div>
+                  <div class="col-sm-7">
+                    <textarea
+                      class="form-control highlight"
+                      formControlName="value"
+                      [readonly]="routeParams.mode == 'view'"
+                    ></textarea>
+                  </div>
+                  <div class="col-sm-1">
+                    <button
+                      class="btn btn-danger fa fa-remove text-center"
+                      (click)="deleteProcessInput(i)"
+                      [disabled]="routeParams.mode == 'view'"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="!(routeParams.mode == 'view')">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="viewOrEditTriggerForm.invalid"
+              (click)="UpdateTrigger(trigger.id)"
+              [ngClass]="{
+                'form-valid': !viewOrEditTriggerForm.invalid,
+                'form-invalid': viewOrEditTriggerForm.invalid
+              }"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </form>
+  </div>
+</div>

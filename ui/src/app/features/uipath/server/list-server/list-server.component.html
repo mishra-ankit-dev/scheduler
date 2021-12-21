@@ -1,0 +1,42 @@
+<div class="list-server" *ngIf="allServers$ | async as allServers">
+  <ng-container
+    *ngIf="allServers$ | filterUipathServers | async as allFilteredServers"
+  >
+    <app-server
+      *ngFor="let server of allFilteredServers; let indexOfServer = index"
+      [server]="server"
+      [serverNo]="indexOfServer"
+    ></app-server>
+
+    <div class="no-matching-server row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h4
+          *ngIf="
+            !((allServers | json) == '[]') &&
+            (allFilteredServers | json) == '[]'
+          "
+        >
+          No Server found as per the searched keyword. Try with some different
+          keyword.
+        </h4>
+        <h4 *ngIf="(allServers | json) == '[]'">No Server found to display</h4>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </ng-container>
+</div>
+
+<app-spinner
+  *ngIf="!(allServers$ | async)"
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Fetching data from backend....." }}</app-spinner
+>
+
+<app-spinner
+  *ngIf="(allServers$ | async) && !(allServers$ | filterUipathServers | async)"
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Checking for search keyword from search box....." }}</app-spinner
+>

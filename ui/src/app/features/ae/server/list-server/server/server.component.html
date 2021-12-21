@@ -1,0 +1,67 @@
+<div class="server">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Version</th>
+        <th scope="col">DBServer</th>
+        <th scope="col">DB</th>
+        <th scope="col">View</th>
+        <th scope="col">Edit</th>
+        <th *ngIf="server.status == false" scope="col">Start</th>
+        <th *ngIf="server.status == true" scope="col">Stop</th>
+        <th scope="col">Delete</th>
+        <th scope="col">AESite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th [ngClass]="server.status ? 'online' : 'offline'" scope="row">
+          {{ serverNo + 1 }}
+        </th>
+        <td>{{ server.serverName }}</td>
+        <td>
+          <span *ngIf="server.status"> Running </span>
+          <span *ngIf="!server.status"> Stopped </span>
+        </td>
+        <td>{{ server.aeVersion }}</td>
+        <td>{{ server.dbServerName }}</td>
+        <td>{{ server.dbName }}</td>
+        <td (click)="ViewServer(server)">
+          <i class="bi bi-eye-fill primary" aria-hidden="true"></i>
+        </td>
+        <td (click)="EditServer(server)">
+          <i class="bi bi-pencil-square secondary" aria-hidden="true"></i>
+        </td>
+        <td (click)="StartServer(server)">
+          <ng-container *ngIf="serverStatus.includes(server.serverName)">
+            <span class="danger" *ngIf="server.status"> Stopping </span>
+            <span class="success" *ngIf="!server.status"> Starting </span>
+          </ng-container>
+          <ng-container *ngIf="!serverStatus.includes(server.serverName)">
+            <i
+              aria-hidden="true"
+              *ngIf="!server.status"
+              class="bi bi-play-circle-fill success"
+            ></i>
+            <i
+              aria-hidden="true"
+              *ngIf="server.status"
+              class="bi bi-stop-circle-fill danger"
+            ></i>
+          </ng-container>
+        </td>
+        <td (click)="DeleteServer(server)">
+          <i aria-hidden="true" class="bi bi-archive-fill danger"></i>
+        </td>
+        <td>
+          <a target="_blank" rel="noopener noreferrer" [href]="server.aeSiteUrl"
+            ><i class="bi bi-link-45deg"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

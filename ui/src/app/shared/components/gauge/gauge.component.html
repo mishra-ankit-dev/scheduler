@@ -1,0 +1,14 @@
+<div class="gauge text-center">
+  <div *ngIf="gaugeValue !== undefined; else noGaugeValue" class="indicator">
+    <div class="gauge_body">
+      <div [ngStyle]="gaugeColor" class="gauge_fill"></div>
+      <div class="gauge_cover">
+        {{ gaugeValue + " %" }}
+      </div>
+    </div>
+  </div>
+  <ng-template #noGaugeValue>
+    <app-spinner spinnerColor="var(--color-primary)"></app-spinner>
+  </ng-template>
+  <div>{{ gaugeText }}</div>
+</div>

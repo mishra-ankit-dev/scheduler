@@ -1,0 +1,39 @@
+.site-layout {
+  overflow: hidden;
+  min-height: 100%;
+
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+
+  header {
+    .navigation-bar {
+      height: 100%;
+    }
+  }
+
+  main {
+    .content-wrapper {
+      margin-left: 0px;
+      padding-left: 0px;
+      .content {
+        // width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        .left-sidebar {
+          padding: 0px;
+          background-color: #eee !important;
+        }
+
+        .main-content {
+          padding: 0px;
+        }
+      }
+    }
+  }
+
+  footer {
+    min-height: 300px;
+    background-image: url("/static/ui/assets/Footer/bg-dark.svg") !important;
+  }
+}

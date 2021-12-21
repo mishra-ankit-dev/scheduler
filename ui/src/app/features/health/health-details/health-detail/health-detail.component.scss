@@ -1,0 +1,18 @@
+.health-detail {
+  margin: 20px;
+  .server-info {
+    border-radius: 30px;
+    background-color: #eee;
+    border: solid 3px var(--color-secondary);
+
+    margin: 0;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    li {
+      margin: 5px;
+    }
+  }
+}

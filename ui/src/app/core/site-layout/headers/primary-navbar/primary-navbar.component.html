@@ -1,0 +1,15 @@
+<div
+  class="primary-navbar-wrapper"
+  *ngIf="currentTechnology$ | async as currentTechnology"
+>
+  <nav class="navbar navbar-collapse-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand"
+        ><span class="d-none d-sm-inline-block">{{
+          (currentTechnology | uppercase) + " Scheduler"
+        }}</span></a
+      >
+      <app-search-box></app-search-box>
+    </div>
+  </nav>
+</div>

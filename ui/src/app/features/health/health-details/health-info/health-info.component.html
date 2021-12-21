@@ -1,0 +1,40 @@
+<div
+  class="health-info"
+  *ngIf="healthDetail$ | async as healthDetail; else healthDetailNotFetched"
+>
+  <div
+    class="row health-data"
+    style="list-style: inline"
+    *ngIf="!healthDetail?.error; else healthDetailNotFound"
+  >
+    <app-gauge
+      class="col-md-4"
+      [gaugeText]="'CPU Utilization'"
+      [gaugeValue]="healthDetail.cpuUtilization"
+      [colorDistribution]="true"
+    ></app-gauge>
+    <app-gauge
+      class="col-md-4"
+      [gaugeText]="'RAM Utilization'"
+      [gaugeValue]="healthDetail.ramUtilization"
+      [colorDistribution]="true"
+    ></app-gauge>
+    <app-gauge
+      class="col-md-4"
+      [gaugeText]="'Available Disk Space'"
+      [gaugeValue]="healthDetail.availableDiskSpace"
+      [colorDistribution]="false"
+    ></app-gauge>
+  </div>
+  <ng-template #healthDetailNotFound>
+    <span *ngIf="healthDetail.error">
+      {{ healthDetail.error }}
+    </span>
+  </ng-template>
+</div>
+
+<ng-template #healthDetailNotFetched>
+  <app-spinner spinnerColor="var(--color-secondary)" spinnerSize="1.5rem"
+    >Fetching Server Health details</app-spinner
+  >
+</ng-template>

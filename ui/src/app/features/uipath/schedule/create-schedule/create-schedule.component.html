@@ -1,0 +1,146 @@
+<div class="schedule-trigger" *ngIf="allTriggers$ | async as allTriggers">
+  <div class="form-wrapper mt-3">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <form [formGroup]="scheduleTriggerForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="trigger" class="form-label required"
+                    >Schedule Name</label
+                  >
+                  <input
+                    type="text"
+                    id="scheduleName"
+                    class="form-control highlight"
+                    formControlName="scheduleName"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="trigger" class="form-label required"
+                    >Trigger</label
+                  >
+                  <select
+                    id="trigger"
+                    class="form-control highlight"
+                    formControlName="trigger"
+                  >
+                    <option value="" selected>Select Trigger....</option>
+                    <option
+                      *ngFor="let trigger of allTriggers"
+                      [value]="trigger.id"
+                    >
+                      {{ trigger.triggerName }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="repeat-type" class="form-label required"
+                    >Occurrence Type</label
+                  >
+                  <select
+                    id="repeat-type"
+                    class="form-control highlight"
+                    formControlName="recurringType"
+                  >
+                    <option value="" selected>Select Repeat Type....</option>
+                    <option>Now</option>
+                    <option>Once</option>
+                    <option>Daily</option>
+                    <option>Weakly</option>
+                    <option>Monthly</option>
+                    <option>Yearly</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="recurringTypeChangeValue$ | async as recurringType"
+            >
+              <div
+                class="form-group"
+                *ngIf="!(recurringType == 'Once') && !(recurringType == 'Now')"
+              >
+                <div class="form-group">
+                  <label for="recurringTime" class="form-label required"
+                    >Schedule Time</label
+                  >
+                  <input
+                    type="time"
+                    id="recurringTime"
+                    class="form-control highlight"
+                    formControlName="recurringTime"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="recurringStartDate" class="form-label required"
+                    >Schedule Start Date</label
+                  >
+                  <input
+                    type="date"
+                    id="recurringStartDate"
+                    class="form-control highlight"
+                    formControlName="recurringStartDate"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="recurringEndDate" class="form-label required"
+                    >Schedule End Date</label
+                  >
+                  <input
+                    type="date"
+                    id="recurringEndDate"
+                    class="form-control highlight"
+                    formControlName="recurringEndDate"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group" *ngIf="recurringType == 'Once'">
+                <div class="form-group">
+                  <label for="occurOnceDateTime" class="form-label required"
+                    >Schedule Time</label
+                  >
+                  <input
+                    type="datetime-local"
+                    id="occurOnceDateTime"
+                    class="form-control highlight"
+                    formControlName="occurOnceDateTime"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <button
+              class="btn btn-primary col-md-3"
+              (click)="AddSchedule()"
+              [disabled]="scheduleTriggerForm.invalid"
+              [ngClass]="{
+                'form-valid': !scheduleTriggerForm.invalid,
+                'form-invalid': scheduleTriggerForm.invalid
+              }"
+            >
+              Add Schedule
+            </button>
+            <div class="col-md-9"></div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</div>
+<app-spinner
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  *ngIf="!(allTriggers$ | async)"
+  >{{ " Fetching data from backend....." }}</app-spinner
+>

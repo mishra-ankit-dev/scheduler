@@ -1,0 +1,46 @@
+<div *ngIf="currentRouteURL$ | async as currentRouteURL" style="height: 100%">
+  <div class="home-navbar" *ngIf="routeIsHomeURL(currentRouteURL.url)">
+    <app-home-navbar
+      [titleUnColored]="'AssistEdge'"
+      [titleColored]="'Scheduler'"
+    ></app-home-navbar>
+  </div>
+  <div
+    class="secondary-navbar"
+    *ngIf="routeIsSchedulerURL(currentRouteURL.url)"
+  >
+    <app-schedule-navbar
+      [titleUnColored]="'Schedule '"
+      [titleColored]="' Here !!'"
+    ></app-schedule-navbar>
+  </div>
+  <div class="secondary-navbar" *ngIf="routeIsTriggerURL(currentRouteURL.url)">
+    <app-trigger-navbar
+      [titleUnColored]="'Find your '"
+      [titleColored]="' Triggers here !!'"
+    ></app-trigger-navbar>
+  </div>
+  <div class="secondary-navbar" *ngIf="routeIsServerURL(currentRouteURL.url)">
+    <app-server-navbar
+      [titleUnColored]="'Manage '"
+      [titleColored]="' Servers Here !!'"
+    ></app-server-navbar>
+  </div>
+  <div class="secondary-navbar" *ngIf="routeIsHealthURL(currentRouteURL.url)">
+    <app-health-navbar
+      [titleUnColored]="'Manage '"
+      [titleColored]="' Healths Here !!'"
+    ></app-health-navbar>
+  </div>
+  <div
+    class="secondary-navbar"
+    *ngIf="
+      routeIsAuthURL(currentRouteURL.url) || routeIsUserURL(currentRouteURL.url)
+    "
+  >
+    <app-auth-navbar
+      [titleUnColored]="'Manage '"
+      [titleColored]="' Authentication Here !!'"
+    ></app-auth-navbar>
+  </div>
+</div>

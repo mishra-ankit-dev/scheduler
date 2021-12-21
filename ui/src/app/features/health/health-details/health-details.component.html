@@ -1,0 +1,64 @@
+<div class="health-details">
+  <ng-container
+    *ngIf="
+      allTechnologyServers$ | async as allTechnologyServers;
+      else dataNotFetchedYet
+    "
+  >
+    <div class="servers">
+      <div
+        data-bs-toggle="collapse"
+        data-bs-target="#AEServerToggle"
+        aria-controls="AEServerToggle"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        class="navbar-toggler text-center"
+      >
+        <h4>AssistEdge</h4>
+      </div>
+      <!-- <div class="technology col-md-3"><h4>AssisEdge</h4></div> -->
+      <div id="AEServerToggle" class="collapse navbar-collapse">
+        <ng-container *ngFor="let aeServers of aeServers$ | async">
+          <app-health-detail [server]="aeServers"></app-health-detail>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="servers">
+      <div
+        data-bs-toggle="collapse"
+        data-bs-target="#BPServerToggle"
+        aria-controls="BPServerToggle"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        class="navbar-toggler text-center"
+      >
+        <h4>Blue Prism</h4>
+      </div>
+      <div id="BPServerToggle" class="collapse navbar-collapse">
+        <ng-container *ngFor="let bpServers of bpServers$ | async">
+          <app-health-detail [server]="bpServers"></app-health-detail>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="servers">
+      <div
+        data-bs-toggle="collapse"
+        data-bs-target="#UiPathServerToggle"
+        aria-controls="UiPathServerToggle"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        class="navbar-toggler text-center"
+      >
+        <h4>UiPath</h4>
+      </div>
+      <div id="UiPathServerToggle" class="collapse navbar-collapse">
+        <ng-container *ngFor="let uipathServers of uipathServers$ | async">
+          <app-health-detail [server]="uipathServers"></app-health-detail>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #dataNotFetchedYet></ng-template>
+</div>

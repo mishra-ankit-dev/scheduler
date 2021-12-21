@@ -1,0 +1,134 @@
+<nav class="sidebar">
+  <div class="sidebar-sticky">
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item nav-tabs">
+        <a class="nav-link">
+          <span>Technologies</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          style="cursor: pointer"
+          (click)="SetTechnology('aa')"
+        >
+          <span>AA</span>
+        </a>
+        <a
+          class="nav-link"
+          style="cursor: pointer"
+          (click)="SetTechnology('ae')"
+        >
+          <span>AE</span>
+        </a>
+      </li>
+      <li class="nav-item nav-tabs">
+        <a
+          class="nav-link"
+          style="cursor: pointer"
+          (click)="SetTechnology('bp')"
+        >
+          <span>BP</span>
+        </a>
+        <a
+          class="nav-link"
+          style="cursor: pointer"
+          (click)="SetTechnology('uipath')"
+        >
+          <span>UiPath</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/']"
+          routerLinkActive="router-link-active"
+        >
+          <i class="bi bi-bank2"></i>
+          <span class="d-none d-md-inline-block">Home</span>
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="[GetRouteByRouteName('schedule-home')]"
+          routerLinkActive="router-link-active"
+        >
+          <i class="bi bi-calendar3"></i>
+          <span class="d-none d-md-inline-block">Schedule</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="[GetRouteByRouteName('trigger-home')]"
+        >
+          <i class="bi bi-diagram-3"></i>
+          <span class="d-none d-md-inline-block">Triggers</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="[GetRouteByRouteName('server-home')]">
+          <i class="bi bi-server"></i>
+          <span class="d-none d-md-inline-block">Servers</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="[GetRouteByRouteName('health-home')]">
+          <i class="bi bi-graph-up"></i>
+          <span class="d-none d-md-inline-block">Health</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="
+            IsUserLoggedIn() ? ['user' | routePath] : ['auth' | routePath]
+          "
+          routerLinkActive="router-link-active"
+        >
+          <i class="bi bi-person-circle"></i>
+          <span class="d-none d-md-inline-block">{{
+            IsUserLoggedIn() ? "User" : "Auth"
+          }}</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          target="_blank"
+          class="nav-link"
+          [href]="ADMIN_URL"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-users"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span class="d-none d-md-inline-block">Admin</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

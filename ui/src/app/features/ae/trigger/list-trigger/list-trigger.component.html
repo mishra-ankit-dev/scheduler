@@ -1,0 +1,44 @@
+<div class="list-trigger" *ngIf="allTriggers$ | async as allTriggers">
+  <ng-container
+    *ngIf="allTriggers$ | filterAeTriggers | async as allFilteredTriggers"
+  >
+    <app-trigger
+      *ngFor="let trigger of allFilteredTriggers; let indexOfTrigger = index"
+      [trigger]="trigger"
+      [triggerIndex]="indexOfTrigger"
+      (deletedTrigger)="onTriggerDelete($event)"
+    ></app-trigger>
+    <div class="no-matching-trigger row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h4
+          *ngIf="
+            !((allTriggers | json) == '[]') &&
+            (allFilteredTriggers | json) == '[]'
+          "
+        >
+          No Trigger found as per the searched keyword. Try with some different
+          keyword.
+        </h4>
+        <h4 *ngIf="(allTriggers | json) == '[]'">
+          No Trigger found to display
+        </h4>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </ng-container>
+</div>
+
+<app-spinner
+  *ngIf="!(allTriggers$ | async)"
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Fetching data from backend....." }}</app-spinner
+>
+
+<app-spinner
+  *ngIf="(allTriggers$ | async) && !(allTriggers$ | filterAeTriggers | async)"
+  [spinnerColor]="'#428bca'"
+  [spinnerSize]="'1.5rem'"
+  >{{ " Checking for search keyword from search box....." }}</app-spinner
+>

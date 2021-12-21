@@ -1,0 +1,13 @@
+.primary-navbar-wrapper {
+  .navbar {
+    .container-fluid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      .navbar-brand {
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+    }
+  }
+}

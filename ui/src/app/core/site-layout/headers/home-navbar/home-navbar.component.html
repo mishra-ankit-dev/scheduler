@@ -1,0 +1,43 @@
+<nav class="navbar navbar-inverse navbar-expand-md navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand"
+      ><img src="static/ui/assets/Brand-logo/Infosys.png" alt=""
+    /></a>
+    <button
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#HomeNavbarToggle"
+      aria-controls="HomeNavbarToggle"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      class="navbar-toggler collapsed"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="HomeNavbarToggle">
+      <ul class="nav navbar-nav"></ul>
+      <div class="welcome ms-auto">
+        <span *ngIf="userProfile$ | async as userProfile">
+          <span
+            *ngIf="userProfile?.image"
+            style="color: white; font-size: 20px"
+            >{{ "Welcome " + (loggedInUser$ | async)?.username + " " }}</span
+          >
+        </span>
+
+        <img
+          *ngIf="
+            (userProfile$ | async)?.image as profile_image;
+            else profileNotLoaded
+          "
+          class="profile-image"
+          [src]="profile_image"
+        />
+
+        <ng-template #profileNotLoaded>
+          <app-spinner>{{ "Validating user in Domain..." }}</app-spinner>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,23 @@
+.content {
+  padding: 5px;
+  margin-left: auto;
+  min-height: 250px;
+  margin-right: auto;
+  overflow-x: hidden;
+
+  .profile-user-img {
+    margin: 0 auto;
+    inline-size: 100px;
+    padding: 3px;
+    border: 3px solid #d2d6de;
+  }
+
+  #image {
+    line-height: 1.5em;
+    list-style-image: url("/static/ui/assets/auth/profile/tree.png");
+
+    li {
+      padding-block-end: 0.2em;
+    }
+  }
+}

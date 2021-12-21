@@ -1,0 +1,83 @@
+<div class="login">
+  <div class="form-wrapper">
+    <div class="row">
+      <div class="col-lg-1 col-md-1"></div>
+      <div class="col-md-8 col-lg-5">
+        <form [formGroup]="signInForm">
+          <div class="form-group mt-5 mb-5">
+            <h2 class="form-heading">Sign In</h2>
+            <div class="form-group mt-3">
+              <label for="username" class="form-label required">Username</label>
+              <input
+                autofocus
+                type="text"
+                id="username"
+                class="form-control highlight"
+                autocomplete="username"
+                formControlName="username"
+                [ngClass]="{
+                  'is-invalid': isInValid(value('username')),
+                  'is-valid': isValid(value('username'))
+                }"
+              />
+
+              <small
+                *ngIf="
+                  value('username').touched &&
+                  value('username').errors?.required
+                "
+                class="invalid-feedback"
+                >{{ "Username is Mandatory." }}</small
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label required">Password</label>
+              <input
+                required
+                id="password"
+                type="password"
+                class="form-control highlight"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid': isInValid(value('password')),
+                  'is-valid': isValid(value('password'))
+                }"
+              />
+
+              <small
+                *ngIf="
+                  value('password').touched &&
+                  value('password').errors?.required
+                "
+                class="invalid-feedback"
+                >{{ "Password is Mandatory." }}</small
+              >
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                (click)="signIn()"
+                class="btn"
+                [disabled]="signInForm.invalid"
+                [ngClass]="{
+                  'form-valid': !signInForm.invalid,
+                  'form-invalid': signInForm.invalid
+                }"
+              >
+                Sign In
+              </button>
+            </div>
+
+            <small class="form-group"
+              >Not registered yet?
+              <a [routerLink]="['/auth/register']">Register Here</a></small
+            >
+          </div>
+        </form>
+      </div>
+      <div class="col-md-3 col-lg-6"></div>
+    </div>
+  </div>
+</div>
