@@ -30,10 +30,10 @@ SECRET_KEY = 'ov+pezi+xl8x$6c==__h2+rj(htrli0a*_1+!5+do^j2!v2$(^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'blrkec360833l', 'vimpblt01-22']
+ALLOWED_HOSTS = ['localhost', 'vimpblt01-22']
 # ALLOWED_HOSTS = ['*',]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_HTTPONLY = False
 
@@ -82,7 +82,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_apscheduler',
-    'django_python3_ldap',
 ]
 
 LOGGING = {
@@ -165,17 +164,16 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# AUTHENTICATION_BACKENDS = [
-#     'django.contrib.auth.backends.RemoteUserBackend',
-#     "django.contrib.auth.backends.ModelBackend",
-
-# ]
+AUTHENTICATION_BACKENDS = [
+    'features.authentication.remote_auth.WindowsAuthenticationBackend',
+    # "django.contrib.auth.backends.RemoteUserBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -212,7 +210,7 @@ DATABASES = {
     #     'NAME': 'impact-rpa',
     #     'USER': 'impact-rpa',
     #     'PASSWORD': 'impact-rpa',
-    #     'HOST': 'vimpblt01-22',
+    #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
 }
@@ -237,11 +235,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'users.User'
-
-# AUTHENTICATION_BACKENDS = [
-#     "django_auth_ldap.backend.LDAPBackend",
-#     "django.contrib.auth.backends.ModelBackend",
-# ]
 
 # REST_FRAMEWORK = {
 #     # 'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -278,10 +271,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    BASE_DIR / "static/ui",
 ]
 
 MEDIA_DIR = F'{BASE_DIR}/media'

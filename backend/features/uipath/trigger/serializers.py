@@ -16,6 +16,12 @@ class ProcessInputsSerializer(serializers.ModelSerializer):
 
 class TriggerSerializer(serializers.ModelSerializer):
     server = ServerSerializer(read_only=True)
+    processInputs = ProcessInputsSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Trigger
+        fields = ['id', 'triggerName', 'server', 'processName', 'tenancyName',
+                  'releaseKey', 'processInputs']
 
     def to_internal_value(self, data):
         internal_data = super().to_internal_value(data)
@@ -29,8 +35,3 @@ class TriggerSerializer(serializers.ModelSerializer):
             )
         internal_data['server'] = server
         return internal_data
-
-    class Meta:
-        model = Trigger
-        fields = ['id', 'triggerName', 'server', 'processName', 'tenancyName',
-                  'releaseKey', 'processInputs']

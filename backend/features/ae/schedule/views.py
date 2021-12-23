@@ -1,5 +1,4 @@
 import json
-import requests
 
 from .jobs import RabbitMQ
 
@@ -11,10 +10,7 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 
 import backend.settings
-from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
-
-from django_apscheduler.jobstores import register_events
 
 class SchedulerView(APIView):
     queryset = Schedule.objects.all()
@@ -68,7 +64,7 @@ class SchedulerView(APIView):
             serializer = ScheduleSerializer(data=request.data)
             if (serializer.is_valid()):
                 schedule: Schedule = serializer.save()
-                baseUrl = f'http://{get_current_site(request).domain}/v1/ae/execution'
+                baseUrl = f'http://{get_current_site(request).domain}/v1/ae'
 
                 job_instance = RabbitMQ().CreateJob(schedule, baseUrl)
                 return Response(json.dumps({'created_job': str(job_instance)}))

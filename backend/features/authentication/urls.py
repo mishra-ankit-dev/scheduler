@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import RegisterView, LoginView, LogoutView, ActivationView, ValidateView
+from .views import  RegisterView, LoginView, LogoutView, ActivationView, ValidateView
 
 urlpatterns = [
 
@@ -12,6 +12,7 @@ urlpatterns = [
          ActivationView.as_view(), name="activation"),
 
     path(r'login/', LoginView.as_view(), name="login"),
+
     path(r'validate/', ValidateView.as_view(), name="validate"),
 
     path(r'logout/', LogoutView.as_view(), name="logout"),

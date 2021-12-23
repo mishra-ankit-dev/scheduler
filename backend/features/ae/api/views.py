@@ -1,15 +1,50 @@
-
 import pyodbc
-import json
 
-from django.shortcuts import render
-from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
-from ..models import Server
-
-from rest_framework import authentication, permissions, views
 from rest_framework.response import Response
+from rest_framework import authentication, permissions, views
 
+from ..models import Server, Execution, ProcessOutput
+from ..execution.serializers import ExecutionSerializer
+
+class ExternalTaskView(views.APIView):
+    queryset = Execution.objects.all()
+    serializer_class = ExecutionSerializer
+
+    @csrf_exempt
+    def get(self, request, processInstanceId, taskId, workerId):
+        try:
+            execution: Execution = Execution.objects.get(pk=processInstanceId)
+        except Execution.DoesNotExist:
+            return Response(status=404)
+
+        serializer = ExecutionSerializer(execution)
+
+        response = {
+            'Process_id': taskId,
+            'inputParameters': [
+                {'name': 'id', 'type': 'string',
+                    'value': serializer.data["id"]},
+                {'name': 'botName', 'type': 'string',
+                    'value': execution.trigger.processName},
+                {'name': 'message_id', 'type': 'string',
+                    'value': execution.message_id},
+            ]
+        }
+        return Response(response, status=200)
+
+    @csrf_exempt
+    def post(self, request, processInstanceId: str, workerId: str, status: str):
+        try:
+            execution : Execution = Execution.objects.get(pk=processInstanceId)
+        except Execution.DoesNotExist:
+            return Response(status=404)
+
+        execution.add_process_outputs(outputs=request.data.get('output', {}))
+        
+        serializer = ExecutionSerializer(execution)
+        return Response(serializer.data)
 
 class Processes(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
@@ -42,9 +77,13 @@ class Processes(views.APIView):
                 map(lambda row: row[0], cursor.fetchall()))
 
         elif(processName is not None and processName != ''):
-            query = f"""SELECT O.WORKFLOW_NAME, O.SEARCHCRITERIA_XML, O.VERSION FROM {dbName}.usch_aese.UTBL_WORKFLOW O
-WHERE O.VERSION = (SELECT MAX(I.VERSION) FROM {dbName}.usch_aese.UTBL_WORKFLOW I WHERE O.WORKFLOW_NAME=I.WORKFLOW_NAME) 
-AND O.WORKFLOW_NAME='{processName}'"""
+            query = f"""SELECT O.WORKFLOW_NAME, O.SEARCHCRITERIA_XML, O.VERSION FROM 
+                        {dbName}.usch_aese.UTBL_WORKFLOW O WHERE O.VERSION = 
+                        (SELECT MAX(I.VERSION) FROM 
+                        {dbName}.usch_aese.UTBL_WORKFLOW I 
+                        WHERE O.WORKFLOW_NAME=I.WORKFLOW_NAME) 
+                        AND O.WORKFLOW_NAME='{processName}'
+                    """
 
             cursor.execute(query)
 
@@ -64,7 +103,6 @@ AND O.WORKFLOW_NAME='{processName}'"""
         else:
             return []
 
-
 class ProfileProcessMapping(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
     authentication_classes = (authentication.TokenAuthentication,)
@@ -83,11 +121,12 @@ class ProfileProcessMapping(views.APIView):
 
         cursor = conn.cursor()
         query = f"""SELECT DISTINCT PP.Profile_Name, PP.Process_Name FROM {dbName}.usch_aese.Mapping_Information MI 
-INNER JOIN {dbName}.usch_aese.Process_Information PI
-ON MI.Process_Id=PI.Process_Id
-INNER JOIN {dbName}.usch_aese.R_PROFILEPROCESS PP ON
-MI.MAPPING_ID=PP.MAPPINGID
-ORDER BY PP.Profile_Name, PP.Process_Name"""
+                    INNER JOIN {dbName}.usch_aese.Process_Information PI
+                    ON MI.Process_Id=PI.Process_Id
+                    INNER JOIN {dbName}.usch_aese.R_PROFILEPROCESS PP ON
+                    MI.MAPPING_ID=PP.MAPPINGID
+                    ORDER BY PP.Profile_Name, PP.Process_Name
+                """
 
         # query = f"Select Profile_Name, Process_Name from {request.GET.get('dbName', '')}.usch_aese.R_PROFILEPROCESS where Process_Name IS NOT NULL"
         cursor.execute(query)

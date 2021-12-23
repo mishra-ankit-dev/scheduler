@@ -36,7 +36,7 @@ class ProcessDetail(View):
         token = self.login_to_ui_path_orch(tenancyName, server)
 
         if (token is not None):
-            details: [] = self.get_process_details(token, releasesUrl)
+            details = self.get_process_details(token, releasesUrl)
 
             response: list = []
 

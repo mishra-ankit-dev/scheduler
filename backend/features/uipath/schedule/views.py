@@ -66,7 +66,7 @@ class SchedulerView(APIView):
             ScheduleSerializer.Meta.depth = 0
             serializer = ScheduleSerializer(data=request.data)
             if (serializer.is_valid()):
-                schedule = serializer.save()
+                schedule: Schedule = serializer.save()
                 
                 job_instance = Orchestrator().CreateJob(schedule)
 

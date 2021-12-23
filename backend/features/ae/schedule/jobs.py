@@ -1,6 +1,6 @@
 import json
 import requests
-from ..models import Execution, Trigger
+from ..models import Execution, Schedule
 
 import backend.settings
 from django.utils import timezone
@@ -45,36 +45,25 @@ class RabbitMQ:
                     end_date=schedule.recurringEndDate
                 )
             register_events(backend.settings.scheduler)
-            # print(job_instance.next_run_time)
+                # print(job_instance.next_run_time)
             if job_instance:
                 schedule.status = "pending"
                 schedule.save()
             return job_instance
 
-    def SendPostRequest(self, schedule, baseUrl=None):
+    def SendPostRequest(self, schedule: Schedule, baseUrl=None):
         schedule.status = "Executing"
         schedule.save()
-        trigger: Trigger = schedule.trigger
-        execution: Execution = Execution.objects.create(trigger=trigger)
+        execution: Execution = Execution.objects.create(trigger=schedule.trigger)
         processInputs = schedule.trigger.processInputs.all()
-        for processInput in processInputs:
-            if (processInput.name == 'processInstanceId'):
-                processInput.value = execution.id
-                processInput.save()
-            elif (processInput.name == 'taskId'):
-                processInput.value = f"{execution.trigger.triggerName}_{execution.id}"
-                processInput.save()
-            elif (processInput.name == 'baseUrl'):
-                processInput.value = baseUrl
-                processInput.save()
-            execution.processInputs.add(processInput)
-        execution.save()
+
+        execution.add_process_inputs(baseUrl)
 
         input_params_dict = dict(
-            map(lambda pI: (pI.name, pI.value), processInputs))
+            map(lambda pI: (f"Search.{pI.name}", pI.value), processInputs))
 
         perform_automation_dict_value = {
-            "AutomationInputDictionary": dict(map(lambda kv: (f"Search.{kv[0]}", kv[1]), input_params_dict.items())),
+            "AutomationInputDictionary": input_params_dict,
             "ProcessName": schedule.trigger.processName,
             "ProfileName": schedule.trigger.profileName,
             "APIVersion": "",

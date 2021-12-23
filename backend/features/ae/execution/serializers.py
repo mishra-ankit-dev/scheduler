@@ -9,4 +9,3 @@ class ExecutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Execution
         fields = '__all__'
-        # depth = 1

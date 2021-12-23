@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from django_apscheduler.jobstores import register_events
 
-from ..models import Schedule, Trigger, Server
+from ..models import Execution, Schedule, Trigger, Server
 
 class Orchestrator:
 
@@ -51,13 +51,16 @@ class Orchestrator:
             schedule.save()
         return job_instance
 
-
     def SendPostRequest(self, schedule: Schedule):
         schedule.status = "Executing"
         schedule.save()
 
         trigger: Trigger = schedule.trigger
         server: Server = trigger.server
+
+        execution: Execution = Execution.objects.create(trigger=schedule.trigger)
+        processInputs = schedule.trigger.processInputs.all()
+        execution.add_process_inputs()
 
         token = self.login_to_ui_path_orch(trigger.tenancyName, server)
 
@@ -67,7 +70,7 @@ class Orchestrator:
                 'Authorization': f'Bearer {token}'
             }
             arguments = dict(
-                map(lambda pI: (pI.name, pI.value), schedule.trigger.processInputs.all()))
+                map(lambda pI: (pI.name, pI.value), processInputs))
 
             payload = json.dumps({
                 "startInfo": {
@@ -83,11 +86,12 @@ class Orchestrator:
 
             response = requests.request(
                 "POST", server.startJobUrl, headers=headers, data=payload, verify=False)
-            # print(response.__dict__)
-
+            print(response.content)
             if response:
                 schedule.status = "completed"
                 schedule.save()
+                execution.startJobKey = json.loads(response.content.decode()).get("value")[0].get("Key")
+                execution.save()
 
     def login_to_ui_path_orch(self, tenancyName: str, server: Server):
         login_headers = {

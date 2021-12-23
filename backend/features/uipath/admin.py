@@ -68,19 +68,19 @@ class ProcessOutputAdmin(admin.ModelAdmin):
 
 
 class ExecutionAdmin(admin.ModelAdmin):
-    fields = ('schedule', 'processInputs', 'processOutputs', 'startJobKey',
-              'startTime', 'endTime', 'executionDuration')
+    fields = ('trigger', 'processInputs', 'processOutputs', 'startJobKey',
+              'executionDuration')
 
     # list of fields to display in django admin
-    list_display = ['id', 'schedule', 'startJobKey',
+    list_display = ['id', 'trigger', 'startJobKey',
                     'endTime', 'createdAt', 'executionDuration']
 
     # if you want django admin to show the search bar, just add this line
-    search_fields = ['schedule', 'startJobKey',
+    search_fields = ['trigger', 'startJobKey',
                      'startTime', 'endTime', 'executionDuration']
 
     # to define model data list ordering
-    ordering = ('id', 'schedule', 'startJobKey')
+    ordering = ('id', 'trigger', 'startJobKey')
 
 
 admin.site.register(Server)

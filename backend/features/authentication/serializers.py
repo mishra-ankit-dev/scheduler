@@ -10,7 +10,6 @@ from ..users.serializers import UserSerializer
 
 from rest_framework.authtoken.models import Token
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -65,7 +64,6 @@ class ActivationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     user = UserSerializer()
     key = serializers.ReadOnlyField()
-
     class Meta:
         model = Token
         fields = ('user', 'key')
@@ -81,6 +79,7 @@ class LoginSerializer(serializers.Serializer):
         try:
             loginData["user"] = user = None
             if (username and password):
+                print("Calling authenticate from serializer")
                 user = authenticate(username=username, password=password)
                 if (user is not None):
                     if (user.is_active):
@@ -94,8 +93,7 @@ class LoginSerializer(serializers.Serializer):
                         raise (drf_exceptions.ValidationError(
                             "User is not Active"))
                 else:
-                    raise (drf_exceptions.AuthenticationFailed(
-                        "User is not found"))
+                    raise (drf_exceptions.AuthenticationFailed("User is not found"))
 
             else:
                 msg = "Must provide username and Password"

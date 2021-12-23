@@ -20,7 +20,7 @@ class ServerView(viewsets.ModelViewSet):
 
 class ServerStartStopView(views.APIView):
     permission_classes = (permissions.IsAdminUser, )
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, authentication.RemoteUserAuthentication,)
 
     def post(self, request, format=None):
         import winrm
