@@ -44,13 +44,13 @@ docs/_build/
 target/
 
 # Virtual environment
-venv/
+#venv/
 
-frontend/node_modules/
-frontend/.angular
-frontend/dist
+#frontend/node_modules/
+#frontend/.angular
+#frontend/dist
 
 
-backend/static/robofi
-backend/robofi/environment.py
-backend/automate
+#backend/static/robofi
+#backend/robofi/environment.py
+#backend/automate
